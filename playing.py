@@ -25,7 +25,7 @@ model = tf.keras.models.load_model('kart_model')
 def locate():
     # add 2 screenshots of the upper right and upper left corners to a folder
     emulatortop = pyautogui.locateOnScreen('Notepad.png')
-    emulatorbottom = pyautogui.locateOnScreen('Notepad_2.png')
+    emulatorbottom = pyautogui.locateOnScreen('Notepad2.png')
     print(emulatortop)
     print(emulatorbottom)\
     # Pyautogui wants the coordinates of top left plus the width
@@ -64,7 +64,7 @@ def screen(locate_data):
 
     return frame
 
-def automate_opening():
+#def automate_opening():
     # REMEMBER TO ADD YOUR FULL PATH
     os.startfile("mupen64plus/mupen64plus/mupen64plus-gui.exe")
     time.sleep(2)
@@ -140,6 +140,7 @@ def automate_opening():
     pydirectinput.press('enter')
     time.sleep(1)
 
+locate_data = locate()
 
 while True:
     # we want to screen capture though every loop
@@ -160,22 +161,18 @@ while True:
     cl = np.array(cl)
     print(cl[0])
 
-    # keyboard.press("w")
+    keyboard.press("w")
     if cl[0] == 0:
-        keyboard.release("a")
-        keyboard.release("d")
-        keyboard.press("w")
-    if cl[0] == 1:
-        keyboard.press("w")
-
-        keyboard.release("d")
         keyboard.press("a")
-    if cl[0] == 2:
-        keyboard.press("w")
-        keyboard.release("a")
+        keyboard.release("d")
+    if cl[0] == 1:
         keyboard.press("d")
-    locate_data = locate()
-
+        keyboard.release("a")
+    if cl[0] == 2:
+        keyboard.release('a')
+        keyboard.release("d")
+        
+    
 
     top_x,top_y,bottom_w,bottom_h,img_h,img_w = locate_data
 

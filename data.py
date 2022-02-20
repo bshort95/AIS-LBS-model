@@ -1,16 +1,15 @@
 '''
 Written by Denver Conger
+modified by Brandon Short
 
 github.com/DenverConger
+github.com/bshort95
 
 conda activate SAI
 pip install pydirectinput
 pip install pyautogui
 pip install pillow
-
-Remember to throw your first batch of laps into the test folder and name them on the test_classes.csv
 '''
-
 import cv2
 import numpy as np
 import pyautogui
@@ -22,13 +21,22 @@ import os
 i1 = 0
 i2 = 0
 i3 = 0
-# N
+# function that returns the location of the emulator screen, 
 def locate():
     # add 2 screenshots of the upper right and upper left corners to a folder
+    
     emulatortop = pyautogui.locateOnScreen('Notepad.png')
-    emulatorbottom = pyautogui.locateOnScreen('Notepad_2.png')
-    print(emulatortop)
-    print(emulatorbottom)\
+    emulatorbottom = pyautogui.locateOnScreen('Notepad2.png')
+    if emulatortop == None:
+        print("could not find emulator top, please make sure the top is showing \n or update the 'Notepad.png' file in the screen_capture_imgs folder")
+    else:
+        print(emulatortop)
+    
+    if emulatorbottom == None:
+        print("could not find emulator bottom, please make sure the top is showing \n or update the 'Notepad2.png' file in the screen_capture_imgs folder")        
+    else:
+        print(emulatorbottom)
+
     # Pyautogui wants the coordinates of top left plus the width
     top_x = emulatortop[0]
     top_y = emulatortop[1]
@@ -39,7 +47,7 @@ def locate():
     # Pillow though wants the actual coordinates of all 4 corners so we need 2 arrays of pixels
     img_h = emulatorbottom[1]+emulatorbottom[3]
     img_w = emulatorbottom[0]+emulatorbottom[2]
-    locate_data = top_x+200,top_y+200,bottom_w-400,bottom_h-350,img_h-350,img_w-400 
+    locate_data = top_x,top_y,bottom_w,bottom_h,img_h,img_w 
     return locate_data
 
 # print(bottom_r)
@@ -59,39 +67,40 @@ def screen(locate_data):
 
 
 def automate_opening():
-    os.startfile ("mupen64plus\mupen64plus\mupen64plus-gui.exe")
-    time.sleep(2)
 
-    button = pyautogui.locateOnScreen('file.png')
+    button = pyautogui.locateOnScreen('File.png')
     button7point = pyautogui.center(button)
+
+
+    button7x, button7y = button7point
+    pyautogui.click(button7x, button7y)
+    time.sleep(1)
     
-    button7x, button7y = button7point
-    pyautogui.click(button7x, button7y)
 
-    button = pyautogui.locateOnScreen('rom.png')
-    button7point = pyautogui.center(button)
+    # button = pyautogui.locateOnScreen('rom.png')
+    # button7point = pyautogui.center(button)
+    # button7x, button7y = button7point
+    pyautogui.click(button7x, button7y + 50)
+    time.sleep(1)
+
+    # button = pyautogui.locateOnScreen('kart.png')
+    # button7point = pyautogui.center(button)
     button7x, button7y = button7point
-    pyautogui.click(button7x, button7y)
+    pyautogui.click(button7x + 240, button7y + 50)
     time.sleep(2)
-
-    button = pyautogui.locateOnScreen('kart.png')
-    button7point = pyautogui.center(button)
-    button7x, button7y = button7point
-    pyautogui.click(button7x, button7y)
-
 
     pydirectinput.press('enter')
     time.sleep(3)
     # This locate on screen should be a screenshot of just the grayed out emulator screen so it clicks on it
-    button = pyautogui.locateOnScreen('Notepad.png')
-    button7point = pyautogui.center(button)
+    # button = pyautogui.locateOnScreen('Notepad.png')
+    # button7point = pyautogui.center(button)
 
-    button7x, button7y = button7point
-    pyautogui.click(button7x + 40, button7y + 40)
-    pyautogui.click(button7x + 40, button7y + 40)
-    pyautogui.click(button7x + 40, button7y + 40)
-    # We only want to locate the dimentions once
-    time.sleep(3)
+    # button7x, button7y = button7point
+    # pyautogui.click(button7x + 40, button7y + 40)
+    # pyautogui.click(button7x + 40, button7y + 40)
+    # pyautogui.click(button7x + 40, button7y + 40)
+    # # We only want to locate the dimentions once
+    # time.sleep(3)
     pydirectinput.press('enter')
     time.sleep(6)
 
@@ -133,7 +142,12 @@ def automate_opening():
     pydirectinput.press('enter')
     time.sleep(2)
 
+    pydirectinput.press('l')
+    time.sleep(2)
+#
 automate_opening()
+f = open('data_catalog.csv','w')
+f.write('Filename,ClassId\n')
 top_x,top_y,bottom_w,bottom_h,img_h,img_w = locate()
 screen_locate = locate()
 time.sleep(3)
@@ -143,17 +157,40 @@ while True:
     if keyboard.is_pressed('a'):
         frame = screen(screen_locate)
         # remember to add the rest of your path to the folders!
-        isWritten = cv2.imwrite(f'simple_kart_ai/training/1\Left{i1}.png', frame)
+        
+
+        if i1 % 5 == 0:
+            isWritten = cv2.imwrite(f'datatest\\0\Left{i1}.png', frame)
+        else:
+            isWritten = cv2.imwrite(f'dataset\\0\Left{i1}.png', frame)
+            
+        f.write('Left' + str(i1) +'.png' + ',0\n')
         print(f"Photo Number a")
         i1 += 1
+            
+
     if keyboard.is_pressed('d'):
         frame = screen(screen_locate)
-        isWritten = cv2.imwrite(f'simple_kart_ai/training/2\Right{i2}.png', frame)
+        
+        if i1 % 5 == 0:
+            isWritten = cv2.imwrite(f'datatest\\1\Right{i2}.png', frame)
+        else:
+            isWritten = cv2.imwrite(f'dataset\\1\Right{i2}.png', frame)
+        
+        f.write('Right' + str(i2) +'.png' + ',1\n')
         print(f"Photo Number d")
         i2 += 1
+    
     elif keyboard.is_pressed('w'):
         frame = screen(screen_locate)
-        isWritten = cv2.imwrite(f'simple_kart_ai/training/training/0\Straight{i3}.png', frame)
+        
+        if i3 % 5 == 0:
+            isWritten = cv2.imwrite(f'datatest\\2\Straight{i3}.png', frame)
+        else:
+            isWritten = cv2.imwrite(f'dataset\\2\Straight{i3}.png', frame)
+        
+
+        f.write('Straight' + str(i3) +'.png' + ',2\n')
         print(f"Photo Number w")
         i3 += 1
     
@@ -162,15 +199,15 @@ while True:
             # time.sleep(1)
     frame = screen(screen_locate)
     img = ImageGrab.grab(bbox=(top_x,top_y,img_h,img_w)) #x, y, w, h
-    img_np = np.array(img)
+    # img_np = np.array(img)
     # img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)
         # print(frame[100][175])
         # These frame coordinates go [y][x] starting from the top left
     cv2.imshow("frame", frame)
-
+    
     if cv2.waitKey(1) & 0Xff == ord('q'):
         break
-
+f.close()
 
 '''
 Written by Denver Conger
