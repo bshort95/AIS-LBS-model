@@ -102,7 +102,7 @@ def run():
     model = define_model()
         # create data generator
     print("train_dir")
-    training_dir = 'D:\Coding\AIsociety\Mario_Kart\\training'
+    training_dir = 'dataset'
     image_size = (200, 200)
 
     train_datagen = ImageDataGenerator(
@@ -137,8 +137,7 @@ def run():
             subset="validation",
             seed=42)
     print("test_dir")
-    test_dir = 'D:\Coding\AIsociety\Mario_Kart'
-
+    test_dir = 'datatest'
     test_datagen = ImageDataGenerator(rescale=1./255,zoom_range=.2,
             rotation_range = 40,
             width_shift_range=0.2,
@@ -146,58 +145,57 @@ def run():
     test_generator = test_datagen.flow_from_directory(
             test_dir,
             target_size=(200, 200),
-            classes=['test'],
             class_mode='categorical',
             shuffle=False)
         # fit model
     history = model.fit(train_generator, steps_per_epoch=len(train_generator),
-        validation_data=validation_generator, validation_steps=len(validation_generator), epochs=50 , verbose=1)
+        validation_data=validation_generator, validation_steps=len(validation_generator), epochs=25, verbose=1)
     # evaluate model
-
-    plt.plot(history.history['loss'])
-    plt.plot(history.history['val_loss'])
-    plt.title('model loss')
-    plt.ylabel('loss')
-    plt.xlabel('epoch')
-    plt.legend(['train', 'val'], loc='upper left')
-    plt.show()
-
-    base = pd.read_csv("D:\Coding\AIsociety\Mario_Kart\\test_classes.csv")
-    print(base.head)
-    base = base.ClassId
-    print(type(base))
-    print(type(base[0]))
-
-    pred = model.predict(test_generator, verbose=1)
-
-    cl = []
-    print(pred[0])
-    for i in range(0, len(pred)):
-        cl.append(np.argmax(pred[i]))
-    cl = np.array(cl)
-
-    for i in range(len(cl)):
-        if base[i] != cl[i]:
-            print(i)
-            print(cl[i],base[i])
-    # for i in range(0,802):
-    #     if cl[i] != base[i]:
-    #         print("number")
-    #         print(i)
-    #         print("cl")
-    #         print(cl[i])
-    #         print("base")
-    #         print(base[i])
-    Accuracy = accuracy_score(base, cl)
-    
-    print("accuracy on Test:", Accuracy)
-    from sklearn import metrics
-    print("Accuracy:",metrics.accuracy_score(base, cl))
-
-    cm = confusion_matrix(base,cl)
-    df_cm = pd.DataFrame(cm, range(3), range(3))
-    # plt.figure(figsize=(10,7))
-    sn.set(font_scale=1.4) # for label size
-    sn.heatmap(df_cm, annot=True, annot_kws={"size": 16}) # font size
     model.save('kart_model')
+    # plt.plot(history.history['loss'])
+    # plt.plot(history.history['val_loss'])
+    # plt.title('model loss')
+    # plt.ylabel('loss')
+    # plt.xlabel('epoch')
+    # plt.legend(['train', 'val'], loc='upper left')
+    # plt.show()
+
+    # base = pd.read_csv("data_catalog.csv")
+    # print(base.head)
+    # base = base.ClassId
+    # print(type(base))
+    # print(type(base[0]))
+
+    # pred = model.predict(test_generator, verbose=1)
+
+    # cl = []
+    # print(pred[0])
+    # for i in range(0, len(pred)):
+    #     cl.append(np.argmax(pred[i]))
+    # cl = np.array(cl)
+
+    # for i in range(len(cl)):
+    #     if base[i] != cl[i]:
+    #         print(i)
+    #         print(cl[i],base[i])
+    # # for i in range(0,802):
+    # #     if cl[i] != base[i]:
+    # #         print("number")
+    # #         print(i)
+    # #         print("cl")
+    # #         print(cl[i])
+    # #         print("base")
+    # #         print(base[i])
+    # Accuracy = accuracy_score(base, cl)
+    
+    # print("accuracy on Test:", Accuracy)
+    # from sklearn import metrics
+    # print("Accuracy:",metrics.accuracy_score(base, cl))
+
+    # cm = confusion_matrix(base,cl)
+    # df_cm = pd.DataFrame(cm, range(3), range(3))
+    # # plt.figure(figsize=(10,7))
+    # sn.set(font_scale=1.4) # for label size
+    # sn.heatmap(df_cm, annot=True, annot_kws={"size": 16}) # font size
+   
 run()
