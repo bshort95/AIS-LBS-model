@@ -81,16 +81,16 @@ def automate_opening():
     button7x, button7y = button7point
     pyautogui.click(button7x, button7y)
     pydirectinput.press('enter')
-    
+
     time.sleep(3)
     # This locate on screen should be a screenshot of just the grayed out emulator screen so it clicks on it
-    button = pyautogui.locateOnScreen('Notepad.png')
-    button7point = pyautogui.center(button)
+    # button = pyautogui.locateOnScreen('Notepad.png')
+    # button7point = pyautogui.center(button)
 
-    button7x, button7y = button7point
-    pyautogui.click(button7x + 40, button7y + 40)
-    pyautogui.click(button7x + 40, button7y + 40)
-    pyautogui.click(button7x + 40, button7y + 40)
+    # button7x, button7y = button7point
+    # pyautogui.click(button7x + 40, button7y + 40)
+    # pyautogui.click(button7x + 40, button7y + 40)
+    # pyautogui.click(button7x + 40, button7y + 40)
     # We only want to locate the dimentions once
     time.sleep(3)
     pydirectinput.press('enter')
