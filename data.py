@@ -28,7 +28,7 @@ def locate():
     emulatortop = pyautogui.locateOnScreen('Notepad.png')
     emulatorbottom = pyautogui.locateOnScreen('Notepad_2.png')
     print(emulatortop)
-    print(emulatorbottom)\
+    print(emulatorbottom)
     # Pyautogui wants the coordinates of top left plus the width
     top_x = emulatortop[0]
     top_y = emulatortop[1]
@@ -144,17 +144,17 @@ while True:
     if keyboard.is_pressed('a'):
         frame = screen(screen_locate)
         # remember to add the rest of your path to the folders!
-        isWritten = cv2.imwrite(f'simple_kart_ai/training/1\Left{i1}.png', frame)
+        isWritten = cv2.imwrite(f'training/1\Left{i1}.png', frame)
         print(f"Photo Number a")
         i1 += 1
     if keyboard.is_pressed('d'):
         frame = screen(screen_locate)
-        isWritten = cv2.imwrite(f'simple_kart_ai/training/2\Right{i2}.png', frame)
+        isWritten = cv2.imwrite(f'training/2\Right{i2}.png', frame)
         print(f"Photo Number d")
         i2 += 1
     elif keyboard.is_pressed('w'):
         frame = screen(screen_locate)
-        isWritten = cv2.imwrite(f'simple_kart_ai/training/training/0\Straight{i3}.png', frame)
+        isWritten = cv2.imwrite(f'training/0\Straight{i3}.png', frame)
         print(f"Photo Number w")
         i3 += 1
     
@@ -162,7 +162,7 @@ while True:
 
             # time.sleep(1)
     frame = screen(screen_locate)
-    img = ImageGrab.grab(bbox=(top_x,top_y,img_w, img_h)) #x, y, w, h
+    img = ImageGrab.grab(bbox=(top_x,top_y,top_x+img_w, top_y+img_h)) #x, y, w, h
     img_np = np.array(img)
     # img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)
         # print(frame[100][175])
