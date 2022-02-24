@@ -68,6 +68,8 @@ def automate_opening():
     button7x, button7y = button7point
     pyautogui.click(button7x, button7y)
 
+
+    time.sleep(2)
     button = pyautogui.locateOnScreen('rom.png')
     button7point = pyautogui.center(button)
     button7x, button7y = button7point
@@ -78,9 +80,8 @@ def automate_opening():
     button7point = pyautogui.center(button)
     button7x, button7y = button7point
     pyautogui.click(button7x, button7y)
-
-
     pydirectinput.press('enter')
+    
     time.sleep(3)
     # This locate on screen should be a screenshot of just the grayed out emulator screen so it clicks on it
     button = pyautogui.locateOnScreen('Notepad.png')
