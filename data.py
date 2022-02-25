@@ -134,6 +134,8 @@ def automate_opening():
     pydirectinput.press('enter')
     time.sleep(2)
 
+    pydirectinput.press('l')
+
 automate_opening()
 top_x,top_y,bottom_w,bottom_h,img_h,img_w = locate()
 screen_locate = locate()
