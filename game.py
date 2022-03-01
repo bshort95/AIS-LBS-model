@@ -34,7 +34,14 @@ class Game():
         # add 2 screenshots of the upper right and upper left corners to a folder 
         return self._locate_data
 
-    
+    def get_coordinates(self):
+        top_x,top_y,bottom_w,bottom_h,img_h,img_w = self._locate_data
+
+        x_offset = bottom_w*0.8
+        y_offset = bottom_h*0.54
+
+        frame = pyautogui.screenshot(region=(top_x+x_offset,top_y+y_offset,bottom_w-x_offset,bottom_h-y_offset))
+        cv2.imshow("frame", np.array(frame))
 
     def screen(self, locate_data):
         top_x,top_y,bottom_w,bottom_h,img_h,img_w = locate_data
@@ -129,4 +136,4 @@ class Game():
         pydirectinput.press('enter')
         time.sleep(2)
 
-        pydirectinput.press('l')
+        # pydirectinput.press('l')

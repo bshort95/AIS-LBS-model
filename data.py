@@ -173,7 +173,8 @@ while True:
     # img_np = cv2.cvtColor(img_np, cv2.COLOR_BGR2GRAY)
         # print(frame[100][175])
         # These frame coordinates go [y][x] starting from the top left
-    cv2.imshow("frame", frame)
+    #cv2.imshow("frame", frame)
+    game.get_coordinates()
 
     if cv2.waitKey(1) & 0Xff == ord('q'):
         break
