@@ -62,8 +62,8 @@ def automate_opening():
     os.startfile ("mupen64plus\mupen64plus\mupen64plus-gui.exe")
     time.sleep(2)
 
-    button = pyautogui.locateOnScreen('file.png')
-    button7point = pyautogui.center(button)
+    # button = pyautogui.locateOnScreen('file.png')
+    # button7point = pyautogui.center(button)
     
     button7x, button7y = button7point
     pyautogui.click(button7x, button7y)
